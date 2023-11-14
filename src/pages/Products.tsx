@@ -29,11 +29,11 @@ export default function Products() {
       <Autocomplete sx={{width:"80%"}}
         value={valueCars}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onChange={(event: any, newValue: string | null) => {
+        onChange={(_event: any, newValue: string | null) => {
           isThereCarASelect(newValue);
         }}
         inputValue={inputCars}
-        onInputChange={(event, newInputValue) => {
+        onInputChange={(_event, newInputValue) => {
           setInputCars(newInputValue);
         }}
         id="controllable-states-demo"

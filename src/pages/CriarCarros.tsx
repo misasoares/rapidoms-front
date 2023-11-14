@@ -51,7 +51,7 @@ export default function CriarCarros() {
     }
   }
 
-  const handleBateriasChange = (event: React.SyntheticEvent, newValue: Array<string>) => {
+  const handleBateriasChange = (_event: React.SyntheticEvent, newValue: Array<string>) => {
     setValueBateria(newValue);
   };
 
@@ -67,11 +67,11 @@ export default function CriarCarros() {
         <Autocomplete
           value={valueFabrica}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(event: any, newValue: string | null) => {
+          onChange={(_event: any, newValue: string | null) => {
             setValueFabrica(newValue);
           }}
           inputValue={inputValueFabrica}
-          onInputChange={(event, newInputValue) => {
+          onInputChange={(_event, newInputValue) => {
             setInputValueFabrica(newInputValue);
           }}
           id="controllable-states-demo"
@@ -85,7 +85,7 @@ export default function CriarCarros() {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={handleBateriasChange}
           inputValue={inputValueBateria}
-          onInputChange={(event, newInputValue) => {
+          onInputChange={(_event, newInputValue) => {
             setInputValueBateria(newInputValue);
           }}
           id="controllable-states-demo"
