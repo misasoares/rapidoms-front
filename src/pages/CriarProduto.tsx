@@ -39,7 +39,7 @@ export default function CriarProduto() {
         <TextField sx={{ margin: 1 }} id="outlined-basic" name="preco" type="number" label="Preço" variant="outlined" />
         <TextField sx={{ margin: 1 }} id="outlined-basic" name="img" label="Imagem(link)" variant="outlined" />
         <Button sx={{ margin: 1 }} type="submit" variant="contained">
-          Entrar
+          Criar
         </Button>
       </FormStyled>
     </>

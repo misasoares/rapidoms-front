@@ -1,11 +1,14 @@
 import { Provider } from "react-redux";
 import RoutesApp from "./routes/RoutesApp";
-import { store } from "./store/store";
+import { persistor, store } from "./store/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 function App() {
   return (
     <Provider store={store}>
-      <RoutesApp />
+      <PersistGate persistor={persistor}>
+        <RoutesApp />
+      </PersistGate>
     </Provider>
   );
 }
