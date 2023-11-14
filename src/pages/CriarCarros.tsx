@@ -1,37 +1,59 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { FormStyled } from "../components/LoginStyled";
 import { criarCarroAPI } from "../config/services/car.service";
+import Autocomplete from "@mui/material/Autocomplete";
 import { useState } from "react";
+import { useAppSelector } from "../store/hooks";
 
 export interface CarType {
   name: string;
   yearFabrication: number;
   factoryId: string;
-  batteryId: string;
+  batteryId: (string | undefined)[] ;
 }
 
+// const options = ['Option 1', 'Option 2'];
+
 export default function CriarCarros() {
-  const [carros, setCarros] = useState<CarType[]>([]);
+  const factoriesRedux = useAppSelector((state) => state.factories);
+  const bateriesRedux = useAppSelector((state) => state.products);
+  const [valueFabrica, setValueFabrica] = useState<string | null>(factoriesRedux[0].name);
+  const [valueBateria, setValueBateria] = useState<string[]>([]);
+  const [inputValueFabrica, setInputValueFabrica] = useState("");
+  const [inputValueBateria, setInputValueBateria] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const carro: CarType = {
-      name: e.currentTarget.nome.value,
-      yearFabrication: parseInt(e.currentTarget.yearFabrication.value),
-      factoryId: e.currentTarget.factoryId.value,
-      batteryId: e.currentTarget.batteryId.value, //pode receber um array de string
-    };
+    const factory = factoriesRedux.find((i) => i.name === e.currentTarget.factory.value);
+    //  const battery = bateriesRedux.find((i) => `${i.name} - ${i.amper} amperes` === valueBateria);
+    const selectedBatteries = valueBateria.map(bateriaLabel => {
+      return bateriesRedux.find(battery => `${battery.name} - ${battery.amper} amperes` === bateriaLabel)?.id;
+    }).filter(id => id !== undefined);
+    
 
-    const res = await criarCarroAPI(carro);
 
-    if (res.code === 201) {
-      setCarros(res.data);
-      console.log(res.data);
-    } else {
-      console.log(res);
+    if (factory && selectedBatteries) {
+      const carro: CarType = {
+        name: e.currentTarget.nome.value,
+        yearFabrication: parseInt(e.currentTarget.yearFabrication.value),
+        factoryId: factory.id,
+        batteryId:selectedBatteries, 
+      };
+
+      const res = await criarCarroAPI(carro);
+
+      if (res.code === 201) {
+        console.log(res.data);
+      } else {
+        console.log(res);
+      }
     }
   }
+
+    const handleBateriasChange = (event: React.SyntheticEvent, newValue: Array<string>) => {
+    setValueBateria(newValue);
+  };
 
   return (
     <>
@@ -42,19 +64,39 @@ export default function CriarCarros() {
       <FormStyled onSubmit={(e) => handleSubmit(e)}>
         <TextField sx={{ margin: 1 }} id="outlined-basic" name="nome" label="Nome" variant="outlined" />
         <TextField sx={{ margin: 1 }} id="outlined-basic" name="yearFabrication" type="number" label="Ano de fabricação" variant="outlined" />
-        <TextField sx={{ margin: 1 }} id="outlined-basic" name="factoryId" label="ID da Fábrica" variant="outlined" />
-        <TextField sx={{ margin: 1 }} id="outlined-basic" name="batteryId" label="ID da bateria" variant="outlined" />
+        <Autocomplete
+          value={valueFabrica}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange={(event: any, newValue: string | null) => {
+            setValueFabrica(newValue);
+          }}
+          inputValue={inputValueFabrica}
+          onInputChange={(event, newInputValue) => {
+            setInputValueFabrica(newInputValue);
+          }}
+          id="controllable-states-demo"
+          options={factoriesRedux.map((f) => f.name)}
+          renderInput={(params) => <TextField sx={{ margin: 1 }} {...params} name="factory" label="Fábrica" />}
+        />
+
+        <Autocomplete
+        multiple
+          value={valueBateria}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange={handleBateriasChange}
+          inputValue={inputValueBateria}
+          onInputChange={(event, newInputValue) => {
+            setInputValueBateria(newInputValue);
+          }}
+          id="controllable-states-demo"
+          options={bateriesRedux.map((f) => `${f.name} - ${f.amper} amperes`)}
+          renderInput={(params) => <TextField sx={{ margin: 1 }} {...params} name="batery" label="Baterias" />}
+        />
 
         <Button sx={{ margin: 1 }} type="submit" variant="contained">
           Criar
         </Button>
       </FormStyled>
-
-      {/* {carros.map((c, index) => (
-        <div key={index}>
-          <p>{c.name}</p>
-        </div>
-      ))} */}
     </>
   );
 }

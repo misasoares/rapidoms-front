@@ -1,12 +1,20 @@
-import { Typography } from "@mui/material";
+import { Autocomplete, TextField, Typography } from "@mui/material";
 import { useAppSelector } from "../store/hooks";
-import CardBateria from "../components/CardBateria";
+
 import { BodyProductsStyle } from "../components/ProductsStyled";
+import { SetStateAction, useState } from "react";
 
 export default function Products() {
   const productsRedux = useAppSelector((state) => state.products);
+  const carsRedux = useAppSelector((state) => state.cars);
+  const [valueCars, setValueCars] = useState<string | null>("");
+  const [inputCars, setInputCars] = useState("");
+  const [isThereCarSelect, setIsThereCarSelect] = useState(false);
 
-  console.log(productsRedux, "---");
+  function isThereCarASelect(newValue: SetStateAction<string | null>) {
+    setValueCars(newValue);
+    setIsThereCarSelect(true);
+  }
 
   return (
     <BodyProductsStyle>
@@ -17,13 +25,31 @@ export default function Products() {
         Modelos de baterias: {productsRedux.length}
       </Typography>
 
-      {productsRedux.map((b, index) => (
-        <div key={index}>
-          <Typography variant="h6" component="p">
-            <CardBateria img={b.img} name={b.name} amper={b.amper} cca={b.cca} price={b.price} warranty={b.warranty} />
-          </Typography>
-        </div>
-      ))}
+      <Autocomplete sx={{width:"80%"}}
+        value={valueCars}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onChange={(event: any, newValue: string | null) => {
+          isThereCarASelect(newValue);
+        }}
+        inputValue={inputCars}
+        onInputChange={(event, newInputValue) => {
+          setInputCars(newInputValue);
+        }}
+        id="controllable-states-demo"
+        options={carsRedux.map((f) => f.name)}
+        renderInput={(params) => <TextField sx={{ margin: 1 }} {...params} name="batery" label="Digite seu carro" />}
+      />
+
+      {isThereCarSelect ? 
+      carsRedux.filter((c) => c.name === inputCars).map((c) => 
+      <div key={c.name}>
+        {c.battery.map((b)=>
+          <div key={b.id}>
+            <Typography>{b.name} - {b.amper} amperes - {b.cca} CCA - R${b.price},00</Typography>
+          </div>
+        )}
+        </div>) :
+       null}
     </BodyProductsStyle>
   );
 }

@@ -8,7 +8,7 @@ export interface CarType {
   yearFabrication: number;
   id: string;
   factory: FactoryType;
-  battery?: BateryType[];
+  battery: BateryType[];
 }
 
 const initialState: CarType[] = [];

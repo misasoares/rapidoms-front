@@ -3,6 +3,7 @@ import { FormStyled } from "../components/LoginStyled";
 import { criarFabricaAPI } from "../config/services/factory.service";
 
 import styled from "styled-components";
+import { useAppSelector } from "../store/hooks";
 
 const BodyStyled = styled.div`
   width: 100vw;
@@ -13,6 +14,7 @@ const BodyStyled = styled.div`
 `;
 
 export default function CriarFabricas() {
+  const fabricasRedux = useAppSelector(state=>state.factories)
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -30,7 +32,7 @@ export default function CriarFabricas() {
 
   return (
     <BodyStyled>
-      <div style={{ width: "60%", margin: "50px", display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid black", borderRadius: "80px 0px 80px 0px" }}>
+      <div style={{ width: "60%", margin: "50px", display: "flex", flexDirection: "column", alignItems: "center"}}>
         <Typography variant="h3" component="h1">
           Criar fábrica
         </Typography>
@@ -45,6 +47,11 @@ export default function CriarFabricas() {
         <Typography marginTop="50px" variant="h4" component="h1">
           Lista de fábricas cadastradas:
         </Typography>
+        {fabricasRedux.map((f)=>(
+          <div key={f.id}>
+            <p>{f.name}</p>
+          </div>
+        ))}
       </div>
     </BodyStyled>
   );
