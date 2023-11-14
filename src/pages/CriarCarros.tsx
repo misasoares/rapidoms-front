@@ -9,7 +9,7 @@ export interface CarType {
   name: string;
   yearFabrication: number;
   factoryId: string;
-  batteryId: (string | undefined)[] ;
+  batteryId: (string | undefined)[];
 }
 
 // const options = ['Option 1', 'Option 2'];
@@ -27,18 +27,18 @@ export default function CriarCarros() {
 
     const factory = factoriesRedux.find((i) => i.name === e.currentTarget.factory.value);
     //  const battery = bateriesRedux.find((i) => `${i.name} - ${i.amper} amperes` === valueBateria);
-    const selectedBatteries = valueBateria.map(bateriaLabel => {
-      return bateriesRedux.find(battery => `${battery.name} - ${battery.amper} amperes` === bateriaLabel)?.id;
-    }).filter(id => id !== undefined);
-    
-
+    const selectedBatteries = valueBateria
+      .map((bateriaLabel) => {
+        return bateriesRedux.find((battery) => `${battery.name} - ${battery.amper} amperes` === bateriaLabel)?.id;
+      })
+      .filter((id) => id !== undefined);
 
     if (factory && selectedBatteries) {
       const carro: CarType = {
         name: e.currentTarget.nome.value,
         yearFabrication: parseInt(e.currentTarget.yearFabrication.value),
         factoryId: factory.id,
-        batteryId:selectedBatteries, 
+        batteryId: selectedBatteries,
       };
 
       const res = await criarCarroAPI(carro);
@@ -51,7 +51,7 @@ export default function CriarCarros() {
     }
   }
 
-    const handleBateriasChange = (event: React.SyntheticEvent, newValue: Array<string>) => {
+  const handleBateriasChange = (event: React.SyntheticEvent, newValue: Array<string>) => {
     setValueBateria(newValue);
   };
 
@@ -80,7 +80,7 @@ export default function CriarCarros() {
         />
 
         <Autocomplete
-        multiple
+          multiple
           value={valueBateria}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={handleBateriasChange}

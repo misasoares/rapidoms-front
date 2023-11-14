@@ -3,6 +3,7 @@ import { useAppSelector } from "../store/hooks";
 
 import { BodyProductsStyle } from "../components/ProductsStyled";
 import { SetStateAction, useState } from "react";
+import CardBateria from "../components/CardBateria";
 
 export default function Products() {
   const productsRedux = useAppSelector((state) => state.products);
@@ -45,7 +46,8 @@ export default function Products() {
       <div key={c.name}>
         {c.battery.map((b)=>
           <div key={b.id}>
-            <Typography>{b.name} - {b.amper} amperes - {b.cca} CCA - R${b.price},00</Typography>
+
+            <CardBateria amper={b.amper} cca={b.cca} img={b.img} name={b.name} price={b.price} warranty={b.warranty}/>
           </div>
         )}
         </div>) :
