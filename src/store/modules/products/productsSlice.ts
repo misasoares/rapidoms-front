@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface BateryType {
   img:string
+  id:string
   name: string;
   amper: number;
   cca: number;

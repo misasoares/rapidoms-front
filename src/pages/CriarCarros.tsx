@@ -50,11 +50,11 @@ export default function CriarCarros() {
         </Button>
       </FormStyled>
 
-      {carros.map((c, index) => (
+      {/* {carros.map((c, index) => (
         <div key={index}>
           <p>{c.name}</p>
         </div>
-      ))}
+      ))} */}
     </>
   );
 }

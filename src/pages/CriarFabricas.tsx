@@ -1,14 +1,8 @@
-import { Button, TextField, Tooltip, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { FormStyled } from "../components/LoginStyled";
-import { criarFabricaAPI, listarFabricasAPI } from "../config/services/factory.service";
-import { useEffect, useState } from "react";
-import Zoom from "@mui/material/Zoom";
-import styled from "styled-components";
+import { criarFabricaAPI } from "../config/services/factory.service";
 
-interface FabricaType {
-  id: string;
-  name: string;
-}
+import styled from "styled-components";
 
 const BodyStyled = styled.div`
   width: 100vw;
@@ -19,24 +13,6 @@ const BodyStyled = styled.div`
 `;
 
 export default function CriarFabricas() {
-  const [fabricas, setFabricas] = useState<FabricaType[]>([]);
-
-  useEffect(() => {
-    async function list() {
-      const res = await listarFabricasAPI();
-      if (res.code === 200) {
-        setFabricas(res.data);
-      } else {
-        console.log("Não foi encontrado fábricas");
-      }
-    }
-    list();
-  }, []);
-
-  function handleCopyToClipboard(id: string) {
-    navigator.clipboard.writeText(id);
-  }
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -69,18 +45,6 @@ export default function CriarFabricas() {
         <Typography marginTop="50px" variant="h4" component="h1">
           Lista de fábricas cadastradas:
         </Typography>
-        {fabricas.map((f, index) => (
-          <div key={index} onClick={() => handleCopyToClipboard(`${f.id}`)}>
-            <hr style={{ marginBottom: "10px", marginTop: "10px" }} />
-            <p style={{ cursor: "pointer" }}>
-              <Tooltip TransitionComponent={Zoom} title="Copiar ID">
-                <Button>
-                  {f.name} - {f.id}
-                </Button>
-              </Tooltip>
-            </p>
-          </div>
-        ))}
       </div>
     </BodyStyled>
   );

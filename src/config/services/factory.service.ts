@@ -19,7 +19,7 @@ export async function criarFabricaAPI(name: string) {
   }
 }
 
-export async function listarFabricasAPI() {
+export async function pegarFabricas() {
   try {
     const resposta = await apiService.get("/factories/list-all");
     
