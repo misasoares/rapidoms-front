@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BateryType } from "../../store/modules/products/productsSlice";
+import { CriarBateria } from "../../pages/CriarProduto";
 import apiService from "./api.service";
 
-export async function criarBateriaAPI(data: BateryType) {
+export async function criarBateriaAPI(data: CriarBateria) {
   try {
     const resposta = await apiService.post("/batteries/criar", data);
 

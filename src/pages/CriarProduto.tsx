@@ -1,15 +1,25 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { FormStyled } from "../components/LoginStyled";
 import { useDispatch } from "react-redux";
-import { BateryType, criarBateria } from "../store/modules/products/productsSlice";
+import { criarBateria } from "../store/modules/products/productsSlice";
 import { criarBateriaAPI } from "../config/services/products.service";
+
+export interface CriarBateria {
+  img: string;
+  name: string;
+  amper: number;
+  cca: number;
+  warranty: number;
+  quantity: number;
+  price: number;
+}
 
 export default function CriarProduto() {
   const dispatch = useDispatch();
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const bateria: BateryType = {
+    const bateria: CriarBateria = {
       img: e.currentTarget.img.value,
       name: e.currentTarget.nome.value,
       amper: parseInt(e.currentTarget.amper.value),
