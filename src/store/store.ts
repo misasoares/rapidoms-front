@@ -7,6 +7,7 @@ const persistConfig = {
   key: "rapido-ms",
   version: 1,
   storage,
+  blacklist: ['order']
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
