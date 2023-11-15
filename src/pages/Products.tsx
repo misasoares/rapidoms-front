@@ -1,12 +1,15 @@
 import { Autocomplete, CardActions, Grid, TextField, Typography } from "@mui/material";
-import { useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 import { BodyProductsStyle } from "../components/ProductsStyled";
 import { SetStateAction, useState } from "react";
 import CardBateria from "../components/CardBateria";
 import { useNavigate } from "react-router-dom";
+import { BateryType } from "../store/modules/products/productsSlice";
+import { OrderType, criarPedido } from "../store/modules/order/orderSlice";
 
 export default function Products() {
+  const dispatch = useAppDispatch();
   const productsRedux = useAppSelector((state) => state.products);
   const carsRedux = useAppSelector((state) => state.cars);
   const [valueCars, setValueCars] = useState<string | null>("");
@@ -17,6 +20,15 @@ export default function Products() {
   function isThereCarASelect(newValue: SetStateAction<string | null>) {
     setValueCars(newValue);
     setIsThereCarSelect(true);
+  }
+
+  function handleProduct(b: BateryType) {
+    const findCar = carsRedux.find((c) => c.name === inputCars);
+    if (findCar) {
+      const order: OrderType = { car: findCar, battery: b };
+      dispatch(criarPedido(order));
+      navigate("/order");
+    }
   }
 
   return (
@@ -50,7 +62,7 @@ export default function Products() {
               .filter((c) => c.name === inputCars)
               .map((c) =>
                 c.battery.map((b) => (
-                  <Grid onClick={() => navigate("/order")} item xs={12} sm={6} md={4} key={b.id}>
+                  <Grid onClick={() => handleProduct(b)} item xs={12} sm={6} md={4} key={b.id}>
                     <CardBateria amper={b.amper} cca={b.cca} img={b.img} name={b.name} price={b.price} warranty={b.warranty} />
                     <CardActions></CardActions>
                   </Grid>
