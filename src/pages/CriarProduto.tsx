@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { FormStyled } from "../components/LoginStyled";
 import { useDispatch } from "react-redux";
 import { criarBateria } from "../store/modules/products/productsSlice";
@@ -39,19 +39,27 @@ export default function CriarProduto() {
 
   return (
     <>
-      <Typography>Criar produtos</Typography>
-      <FormStyled onSubmit={(e) => handleSubmit(e)}>
-        <TextField sx={{ margin: 1 }} id="outlined-basic" name="nome" label="Nome" variant="outlined" />
-        <TextField sx={{ margin: 1 }} id="outlined-basic" name="amper" label="Amperes" variant="outlined" />
-        <TextField sx={{ margin: 1 }} id="outlined-basic" name="cca" type="number" label="CCA" variant="outlined" />
-        <TextField sx={{ margin: 1 }} id="outlined-basic" name="garantia" type="number" label="Garantia (em meses)" variant="outlined" />
-        <TextField sx={{ margin: 1 }} id="outlined-basic" name="quantidade" type="number" label="Quantidade" variant="outlined" />
-        <TextField sx={{ margin: 1 }} id="outlined-basic" name="preco" type="number" label="Preço" variant="outlined" />
-        <TextField sx={{ margin: 1 }} id="outlined-basic" name="img" label="Imagem(link)" variant="outlined" />
-        <Button sx={{ margin: 1 }} type="submit" variant="contained">
+      <Container maxWidth='sm' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100vh'}}>
+      <Typography variant="h3" component="h1" textAlign="center" sx={{ my: 4 }}>
+        Criar produtos
+      </Typography>
+
+      <FormStyled onSubmit={(e) => handleSubmit(e)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Box width="100%" maxWidth={400} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <TextField sx={{ margin: 1 }} id="outlined-basic" name="nome" label="Nome (Ex.: 'Master')" variant="outlined" fullWidth />
+          <TextField sx={{ margin: 1 }} id="outlined-basic" name="amper" type="number" label="Amperes" variant="outlined" fullWidth />
+          <TextField sx={{ margin: 1 }} id="outlined-basic" name="cca" type="number" label="CCA" variant="outlined" fullWidth />
+          <TextField sx={{ margin: 1 }} id="outlined-basic" name="garantia" type="number" label="Garantia (em meses)" variant="outlined" fullWidth />
+          <TextField sx={{ margin: 1 }} id="outlined-basic" name="quantidade" type="number" label="Quantidade" variant="outlined" fullWidth />
+          <TextField sx={{ margin: 1 }} id="outlined-basic" name="preco" type="number" label="Preço" variant="outlined" fullWidth />
+          <TextField sx={{ margin: 1 }} id="outlined-basic" name="img" label="Imagem(link)" variant="outlined" fullWidth />
+        </Box>
+
+        <Button sx={{ mt: 2 }} type="submit" fullWidth variant="contained">
           Criar
         </Button>
       </FormStyled>
+    </Container>
     </>
   );
 }

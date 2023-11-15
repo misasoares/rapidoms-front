@@ -6,7 +6,7 @@ import MyNavbar from "../components/Navbar/MyNavbar";
 import Products from "../pages/Products";
 import CriarProduto from "../pages/CriarProduto";
 import CriarCarros from "../pages/CriarCarros";
-import CriarFabricas from "../pages/CriarFabricas";
+import Order from "../pages/Order";
 
 const router = createBrowserRouter([
   {
@@ -42,9 +42,9 @@ const router = createBrowserRouter([
     element: <CriarCarros />,
   },
   {
-    path: "/criar-fabricas",
-    element: <CriarFabricas />,
-  },
+    path:'/order',
+    element: <MyNavbar children={<Order/>}/>
+  }
 ]);
 
 const RoutesApp: React.FC = () => {
