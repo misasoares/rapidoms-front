@@ -15,7 +15,7 @@ export default function Order() {
     e.preventDefault();
 
     const user: CreateUser = {
-      name: e.currentTarget.name.value,
+      name: e.currentTarget.nome.value,
       email: e.currentTarget.email.value,
       address: e.currentTarget.address.value,
       password: e.currentTarget.password.value,
@@ -30,7 +30,7 @@ export default function Order() {
       <Typography>Faça seu pedido aqui</Typography>
 
       <FormStyled onSubmit={(e) => handleCreateUserSubmit(e)}>
-        <TextField id="outlined-basic" name="name" label="Digite seu nome" variant="outlined"></TextField>
+        <TextField id="outlined-basic" name="nome" label="Digite seu nome" variant="outlined"></TextField>
         <TextField id="outlined-basic" type="email" name="email" label="Digite seu email" variant="outlined"></TextField>
         <TextField id="outlined-basic" type="password" name="password" label="Digite sua senha" variant="outlined"></TextField>
         <TextField id="outlined-basic" name="address" label="Digite seu endereço" variant="outlined"></TextField>
