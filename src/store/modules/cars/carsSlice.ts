@@ -5,7 +5,7 @@ import { FactoryType } from "../factories/factoriesSlice";
 
 export interface CarType {
   name: string;
-  yearFabrication: number;
+  description: string;
   id: string;
   factory: FactoryType;
   battery: BateryType[];

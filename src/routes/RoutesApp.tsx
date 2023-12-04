@@ -7,6 +7,7 @@ import Products from "../pages/Products";
 import CriarProduto from "../pages/CriarProduto";
 import CriarCarros from "../pages/CriarCarros";
 import Order from "../pages/Order";
+import CriarFabricas from "../components/CriarFabricas";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/criar-carros",
     element: <CriarCarros />,
+  },
+  {
+    path: "/criar-fabricas",
+    element: <CriarFabricas />,
   },
   {
     path:'/order',

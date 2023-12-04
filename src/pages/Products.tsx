@@ -1,23 +1,24 @@
+
 import { Autocomplete, CardActions, Grid, TextField, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-
 import { BodyProductsStyle } from "../components/ProductsStyled";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import CardBateria from "../components/CardBateria";
 import { useNavigate } from "react-router-dom";
 import { BateryType } from "../store/modules/products/productsSlice";
 import { OrderType, criarPedido } from "../store/modules/order/orderSlice";
+import { CarType } from "./CriarCarros";
 
 export default function Products() {
   const dispatch = useAppDispatch();
-  const productsRedux = useAppSelector((state) => state.products);
   const carsRedux = useAppSelector((state) => state.cars);
-  const [valueCars, setValueCars] = useState<string | null>("");
+  const [valueCars, setValueCars] = useState<CarType | null>(null);
   const [inputCars, setInputCars] = useState("");
   const [isThereCarSelect, setIsThereCarSelect] = useState(false);
   const navigate = useNavigate();
+  console.log(carsRedux, '------------------------------')
 
-  function isThereCarASelect(newValue: SetStateAction<string | null>) {
+  function isThereCarASelect(newValue: CarType | null) {
     setValueCars(newValue);
     setIsThereCarSelect(true);
   }
@@ -33,18 +34,14 @@ export default function Products() {
 
   return (
     <BodyProductsStyle>
-      <Typography variant="h4" component="h1">
-        Produtos
-      </Typography>
-      <Typography variant="h5" component="h2">
-        Modelos de baterias: {productsRedux.length}
+      <Typography variant="h5" component="h1">
+        Digite o modelo do seu carro.
       </Typography>
 
       <Autocomplete
         sx={{ width: "80%", margin: "auto" }}
         value={valueCars}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onChange={(_event: any, newValue: string | null) => {
+        onChange={(_event, newValue) => {
           isThereCarASelect(newValue);
         }}
         inputValue={inputCars}
@@ -52,8 +49,17 @@ export default function Products() {
           setInputCars(newInputValue);
         }}
         id="controllable-states-demo"
-        options={carsRedux.map((f) => f.name)}
-        renderInput={(params) => <TextField sx={{ margin: 1 }} {...params} name="batery" label="Digite seu carro" />}
+        options={[...carsRedux]}
+        getOptionLabel={(option: CarType) => option.name}
+        renderOption={(props, option) => (
+          <li {...props}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div>{option.name}</div>
+              <div style={{ fontSize: "small", color: "gray" }}> {option.description}</div>
+            </div>
+          </li>
+        )}
+        renderInput={(params) => <TextField {...params} label="Digite seu carro" />}
       />
 
       <Grid container spacing={2} sx={{ width: "80%", margin: "auto" }}>

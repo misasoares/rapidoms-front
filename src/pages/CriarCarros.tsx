@@ -5,15 +5,16 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { useState } from "react";
 import { useAppSelector } from "../store/hooks";
 import CriarFabricas from "../components/CriarFabricas";
+import { PatternFormat } from "react-number-format";
 
 export interface CarType {
   name: string;
-  yearFabrication: number;
+  description: string;
   factoryId: string;
   batteryId: (string | undefined)[];
 }
 
-// const options = ['Option 1', 'Option 2'];
+
 
 export default function CriarCarros() {
   const factoriesRedux = useAppSelector((state) => state.factories);
@@ -22,10 +23,11 @@ export default function CriarCarros() {
   const [valueBateria, setValueBateria] = useState<string[]>([]);
   const [inputValueFabrica, setInputValueFabrica] = useState("");
   const [inputValueBateria, setInputValueBateria] = useState("");
+  const [descriptionParteLivre, setDescriptionParteLivre] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
+    const descricaoCompleta = `${e.currentTarget.description.value} - ${descriptionParteLivre}`;
     const factory = factoriesRedux.find((i) => i.name === e.currentTarget.factory.value);
     //  const battery = bateriesRedux.find((i) => `${i.name} - ${i.amper} amperes` === valueBateria);
     const selectedBatteries = valueBateria
@@ -35,9 +37,10 @@ export default function CriarCarros() {
       .filter((id) => id !== undefined);
 
     if (factory && selectedBatteries) {
+      
       const carro: CarType = {
         name: e.currentTarget.nome.value,
-        yearFabrication: parseInt(e.currentTarget.yearFabrication.value),
+        description: descricaoCompleta,
         factoryId: factory.id,
         batteryId: selectedBatteries,
       };
@@ -69,7 +72,15 @@ export default function CriarCarros() {
       <FormStyled onSubmit={(e) => handleSubmit(e)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Box  width="100%" maxWidth={400} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField sx={{ margin: 1 }} id="outlined-basic" name="nome" label="Nome" variant="outlined" fullWidth/>
-        <TextField sx={{ margin: 1 }} id="outlined-basic" name="yearFabrication" type="number" label="Ano de fabricação" variant="outlined" fullWidth/>
+
+        <PatternFormat name="description" label="Ano" format="Ano #### até ####" customInput={TextField} />
+        <TextField
+            label="Descrição adicional"
+            fullWidth
+            value={descriptionParteLivre}
+            onChange={(e) => setDescriptionParteLivre(e.target.value)}
+          />
+
         <Autocomplete
           value={valueFabrica}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any

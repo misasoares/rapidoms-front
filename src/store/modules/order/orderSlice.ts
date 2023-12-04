@@ -13,7 +13,7 @@ export interface BateryOrder {
 export interface CarOrder {
     id:string
   name: string;
-  yearFabrication: number;
+  description: string;
 }
 
 export interface OrderType {
@@ -23,7 +23,7 @@ export interface OrderType {
 
 const initialState: OrderType = {
   battery: { id: "", name: "", amper: 0, cca: 0, price: 0, warranty: 0 },
-  car: {id:"", name: "", yearFabrication: 0 },
+  car: {id:"", name: "", description: ""},
 };
 
 const orderSlice = createSlice({

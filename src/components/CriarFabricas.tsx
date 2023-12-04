@@ -1,11 +1,14 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { FormStyled } from "./LoginStyled";
 import { criarFabricaAPI } from "../config/services/factory.service";
+import { useAppDispatch } from "../store/hooks";
+import { createFactory } from "../store/modules/factories/factoriesSlice";
 // import { useAppSelector } from "../store/hooks";
 
 
 
 export default function CriarFabricas() {
+  const dispatch = useAppDispatch()
   // const fabricasRedux = useAppSelector(state=>state.factories)
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -17,6 +20,7 @@ export default function CriarFabricas() {
     if (res.code === 201) {
       console.log("Fábrica criada com sucesso.");
       console.log(res.data);
+      dispatch(createFactory(res.data))
     } else {
       console.log("Aconteceu algum erro, tente novamente");
     }

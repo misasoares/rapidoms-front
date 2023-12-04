@@ -53,7 +53,7 @@ export default function Order() {
       userID: userRedux.id,
     };
     const res = await saleAPI(sale)
-    console.log(res) //continuar daqui
+    console.log(res) //continuar daqui - falta incrementar formas de pagamento || mudar no schema.prisma
   }
 
   return (
@@ -98,7 +98,7 @@ export default function Order() {
                 Bateria: {orderRedux.battery.name} - {orderRedux.battery.amper} amperes - {orderRedux.battery.cca} CCA - {orderRedux.battery.warranty} meses de garantia{" "}
               </Typography>
               <Typography>
-                Carro: {orderRedux.car.name} - {orderRedux.car.yearFabrication}
+                Carro: {orderRedux.car.name} - {orderRedux.car.description}
               </Typography>
             </div>
 
